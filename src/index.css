@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Custom Luxury 3D Button Styles */
+.btn-gold-3d {
+  background: linear-gradient(135deg, #D4AF37 0%, #C5A880 50%, #B39265 100%);
+  color: #121414;
+  font-weight: 600;
+  box-shadow: 0 4px 14px 0 rgba(197, 168, 128, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+}
+
+.btn-gold-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(197, 168, 128, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+  filter: brightness(1.05);
+}
+
+.btn-gold-3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px 0 rgba(197, 168, 128, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-charcoal-3d {
+  background: linear-gradient(135deg, #2A2F2F 0%, #1E2222 50%, #121414 100%);
+  color: #F3F0EA;
+  font-weight: 600;
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(197, 168, 128, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+}
+
+.btn-charcoal-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.5);
+  border-color: rgba(197, 168, 128, 0.6);
+}
+
+.btn-charcoal-3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Luxury Glass Effect */
+.glass-luxury {
+  background: rgba(251, 249, 245, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+}
+
+.dark .glass-luxury {
+  background: rgba(18, 20, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(197, 168, 128, 0.15);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #121414;
+}
+::-webkit-scrollbar-thumb {
+  background: #3A3F3F;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C5A880;
+}

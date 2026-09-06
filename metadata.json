@@ -1,0 +1,6 @@
+{
+  "name": "Heaven Furniture Mart",
+  "description": "Luxury Bespoke Furniture & Interior Styling crafted around you in Chattogram.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
