@@ -20,10 +20,10 @@ export const BrandIntro: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="lg:col-span-6 relative"
           >
-            <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 aspect-[4/5]">
+            <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-[#C5A880]/20 aspect-[16/9] bg-[#121414]">
               <img
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"
-                alt="Heaven Furniture Mart Workshop & Studio"
+                src="/assets/furni.png"
+                alt="Heaven Furniture Mart Showroom"
                 className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
               />
             </div>
