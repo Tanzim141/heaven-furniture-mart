@@ -1,8 +1,13 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Compass, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export const BrandIntro: React.FC = () => {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <section id="about" className="py-24 md:py-32 bg-[#FBF9F5] dark:bg-[#121414] transition-colors duration-500 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -27,8 +32,12 @@ export const BrandIntro: React.FC = () => {
             
             {/* Floating Badge */}
             <div className="absolute -top-6 -left-6 z-20 bg-[#121414] dark:bg-[#1A1E1E] text-[#F3F0EA] p-6 rounded-2xl shadow-xl border border-[#C5A880]/40 max-w-[220px]">
-              <span className="text-2xl font-serif text-[#C5A880] font-bold block mb-1">2020</span>
-              <p className="text-xs text-neutral-300 font-medium">Founded by Abul Kalam Bhuiyan.</p>
+              <span className="text-2xl font-serif text-[#C5A880] font-bold block mb-1">
+                {t.brandIntro.founderBadgeYear}
+              </span>
+              <p className="text-xs text-neutral-300 font-medium">
+                {t.brandIntro.founderBadgeText}
+              </p>
             </div>
           </motion.div>
 
@@ -43,20 +52,20 @@ export const BrandIntro: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="h-[1px] w-12 bg-[#C5A880]" />
               <span className="text-xs uppercase tracking-[0.3em] text-[#C5A880] font-semibold">
-                THE PHILOSOPHY OF CRAFT
+                {t.brandIntro.eyebrow}
               </span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl font-serif font-medium tracking-tight text-[#222222] dark:text-[#F3F0EA] leading-tight">
-              Furniture Designed Around You.
+              {t.brandIntro.title}
             </h2>
 
             <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 font-light leading-relaxed">
-              Heaven Furniture Mart creates bespoke furniture and refined interior styling, designed around each customer's needs, space, and taste.
+              {t.brandIntro.p1}
             </p>
 
             <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-light leading-relaxed">
-              From thoughtful design to skilled craftsmanship, every piece is created to bring comfort, character, and a distinctive sense of style to your space.
+              {t.brandIntro.p2}
             </p>
 
             <div className="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -70,10 +79,10 @@ export const BrandIntro: React.FC = () => {
                 </div>
                 <div className="space-y-1">
                   <h4 className="font-serif font-semibold text-lg text-[#222222] dark:text-[#F3F0EA] tracking-tight group-hover:text-[#9E7D4E] dark:group-hover:text-[#C5A880] transition-colors">
-                    Bespoke Built
+                    {t.brandIntro.card1Title}
                   </h4>
                   <p className="text-xs sm:text-[13px] text-neutral-600 dark:text-neutral-400 font-light leading-snug">
-                    Designed around your space, size and taste.
+                    {t.brandIntro.card1Desc}
                   </p>
                 </div>
               </div>
@@ -88,10 +97,10 @@ export const BrandIntro: React.FC = () => {
                 </div>
                 <div className="space-y-1">
                   <h4 className="font-serif font-semibold text-lg text-[#222222] dark:text-[#F3F0EA] tracking-tight group-hover:text-[#9E7D4E] dark:group-hover:text-[#C5A880] transition-colors">
-                    Skilled Craftsmanship
+                    {t.brandIntro.card2Title}
                   </h4>
                   <p className="text-xs sm:text-[13px] text-neutral-600 dark:text-neutral-400 font-light leading-snug">
-                    Thoughtfully designed and crafted with care.
+                    {t.brandIntro.card2Desc}
                   </p>
                 </div>
               </div>

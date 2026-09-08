@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { QuoteFormData } from '../types';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -91,6 +93,9 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { language } = useLanguage();
+  const t = translations[language];
 
   // Map category variations from props to match dropdown if possible
   useEffect(() => {
@@ -172,25 +177,25 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
     const newErrors: ValidationErrors = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full Name is required.';
+      newErrors.fullName = t.quoteModal.fullNameRequired;
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone Number is required.';
+      newErrors.phone = t.quoteModal.phoneRequired;
     } else if (formData.phone.trim().length < 8) {
-      newErrors.phone = 'Please provide a valid phone number.';
+      newErrors.phone = t.quoteModal.phoneInvalid;
     }
 
     if (!formData.category) {
-      newErrors.category = 'Please select a furniture category.';
+      newErrors.category = t.quoteModal.categoryRequired;
     }
 
     if (!formData.deliveryLocation.trim()) {
-      newErrors.deliveryLocation = 'Delivery Location is required.';
+      newErrors.deliveryLocation = t.quoteModal.deliveryLocationRequired;
     }
 
     if (formData.budget === 'Custom Budget' && !formData.customBudget.trim()) {
-      newErrors.customBudget = 'Please enter your custom budget.';
+      newErrors.customBudget = t.quoteModal.customBudgetRequired;
     }
 
     setErrors(newErrors);
@@ -232,13 +237,13 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
           <div className="sticky top-0 z-20 flex items-start justify-between px-6 sm:px-10 py-5 sm:py-6 border-b border-[#C5A880]/20 bg-[#FBF9F5]/95 dark:bg-[#151918]/95 backdrop-blur-md">
             <div>
               <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#C5A880] font-semibold block mb-1">
-                HEAVEN FURNITURE MART
+                {t.quoteModal.eyebrow}
               </span>
               <h3 className="text-2xl sm:text-3xl font-serif font-medium text-[#222222] dark:text-[#F5F2EB] tracking-tight">
-                Request a Bespoke Quote
+                {t.quoteModal.title}
               </h3>
               <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-light mt-0.5">
-                “Let’s create something made for your space.”
+                {t.quoteModal.subtitle}
               </p>
             </div>
 
@@ -270,25 +275,25 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
 
                 <div className="space-y-2">
                   <h4 className="text-2xl sm:text-3xl font-serif font-medium text-[#222222] dark:text-[#F5F2EB]">
-                    Thank you for your request.
+                    {t.quoteModal.successTitle}
                   </h4>
                   <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 font-light leading-relaxed">
-                    Your bespoke furniture inquiry has been received. Our team will get in touch with you shortly.
+                    {t.quoteModal.successDesc}
                   </p>
                 </div>
 
                 {/* Consultation & Details Recap Card */}
                 <div className="p-4 rounded-xl bg-[#F4EFE6] dark:bg-[#1A201F] border border-[#C5A880]/25 text-left text-xs text-neutral-600 dark:text-neutral-300 space-y-2">
                   <div className="flex items-center justify-between pb-2 border-b border-[#C5A880]/20">
-                    <span className="font-semibold text-[#222222] dark:text-[#F5F2EB]">Client Name:</span>
+                    <span className="font-semibold text-[#222222] dark:text-[#F5F2EB]">{t.quoteModal.clientName}</span>
                     <span>{formData.fullName}</span>
                   </div>
                   <div className="flex items-center justify-between pb-2 border-b border-[#C5A880]/20">
-                    <span className="font-semibold text-[#222222] dark:text-[#F5F2EB]">Category:</span>
-                    <span>{formData.category} {formData.quantity ? `(${formData.quantity} unit)` : ''}</span>
+                    <span className="font-semibold text-[#222222] dark:text-[#F5F2EB]">{t.quoteModal.categoryLabel}</span>
+                    <span>{(t.quoteModal.categories[formData.category] || formData.category)} {formData.quantity ? `(${formData.quantity})` : ''}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-[#222222] dark:text-[#F5F2EB]">Delivery Location:</span>
+                    <span className="font-semibold text-[#222222] dark:text-[#F5F2EB]">{t.quoteModal.locationLabel}</span>
                     <span>{formData.deliveryLocation}</span>
                   </div>
                 </div>
@@ -298,7 +303,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     onClick={handleReset}
                     className="btn-gold-3d px-10 py-3.5 rounded-xl text-xs uppercase tracking-[0.2em] font-bold inline-flex items-center justify-center"
                   >
-                    Done
+                    {t.quoteModal.done}
                   </button>
                 </div>
               </motion.div>
@@ -313,7 +318,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-[#C5A880]/20">
                     <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#C5A880]">
-                      1. YOUR DETAILS
+                      {t.quoteModal.step1}
                     </span>
                   </div>
 
@@ -321,7 +326,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     {/* Full Name */}
                     <div>
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Full Name <span className="text-[#C5A880]">*</span>
+                        {t.quoteModal.fullName} <span className="text-[#C5A880]">*</span>
                       </label>
                       <input
                         type="text"
@@ -330,7 +335,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                           setFormData({ ...formData, fullName: e.target.value });
                           if (errors.fullName) setErrors({ ...errors, fullName: undefined });
                         }}
-                        placeholder="e.g. Customer Name"
+                        placeholder={t.quoteModal.fullNamePlaceholder}
                         className={`w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border text-sm text-[#222222] dark:text-[#F5F2EB] placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none transition-all ${
                           errors.fullName
                             ? 'border-red-400 dark:border-red-500 focus:ring-1 focus:ring-red-400'
@@ -348,7 +353,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     {/* Phone Number */}
                     <div>
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Phone Number <span className="text-[#C5A880]">*</span>
+                        {t.quoteModal.phone} <span className="text-[#C5A880]">*</span>
                       </label>
                       <input
                         type="tel"
@@ -357,7 +362,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                           setFormData({ ...formData, phone: e.target.value });
                           if (errors.phone) setErrors({ ...errors, phone: undefined });
                         }}
-                        placeholder="e.g. +880 19XXXXXXXX"
+                        placeholder={t.quoteModal.phonePlaceholder}
                         className={`w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border text-sm text-[#222222] dark:text-[#F5F2EB] placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none transition-all ${
                           errors.phone
                             ? 'border-red-400 dark:border-red-500 focus:ring-1 focus:ring-red-400'
@@ -377,13 +382,13 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
                     <div>
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Email Address (Optional)
+                        {t.quoteModal.email}
                       </label>
                       <input
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="e.g. customer@example.com"
+                        placeholder={t.quoteModal.emailPlaceholder}
                         className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border border-[#C5A880]/30 text-sm text-[#222222] dark:text-[#F5F2EB] placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880] transition-all"
                       />
                     </div>
@@ -397,7 +402,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                           className="w-4 h-4 rounded border-[#C5A880]/40 text-[#C5A880] focus:ring-[#C5A880] focus:ring-offset-0 bg-white dark:bg-[#121615] cursor-pointer accent-[#C5A880]"
                         />
                         <span className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 font-light group-hover:text-neutral-900 dark:group-hover:text-white transition-colors">
-                          This number is available on WhatsApp
+                          {t.quoteModal.isWhatsapp}
                         </span>
                       </label>
                     </div>
@@ -410,7 +415,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-[#C5A880]/20">
                     <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#C5A880]">
-                      2. WHAT ARE YOU LOOKING FOR?
+                      {t.quoteModal.step2}
                     </span>
                   </div>
 
@@ -418,7 +423,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     {/* Category Select */}
                     <div className="md:col-span-8">
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Furniture Type / Category <span className="text-[#C5A880]">*</span>
+                        {t.quoteModal.category} <span className="text-[#C5A880]">*</span>
                       </label>
                       <select
                         value={formData.category}
@@ -433,11 +438,11 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                         }`}
                       >
                         <option value="" disabled className="text-neutral-400">
-                          Select Furniture Category
+                          {t.quoteModal.categorySelect}
                         </option>
                         {CATEGORY_OPTIONS.map((cat) => (
                           <option key={cat} value={cat} className="bg-[#FBF9F5] dark:bg-[#151918]">
-                            {cat}
+                            {t.quoteModal.categories[cat] || cat}
                           </option>
                         ))}
                       </select>
@@ -452,13 +457,13 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     {/* Quantity */}
                     <div className="md:col-span-4">
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Quantity
+                        {t.quoteModal.quantity}
                       </label>
                       <input
                         type="text"
                         value={formData.quantity}
                         onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                        placeholder="e.g. 1"
+                        placeholder={t.quoteModal.quantityPlaceholder}
                         className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border border-[#C5A880]/30 text-sm text-[#222222] dark:text-[#F5F2EB] placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880] transition-all"
                       />
                     </div>
@@ -471,14 +476,14 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-[#C5A880]/20">
                     <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#C5A880]">
-                      3. ESTIMATED BUDGET
+                      {t.quoteModal.step3}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Estimated Budget (Optional)
+                        {t.quoteModal.budget}
                       </label>
                       <select
                         value={formData.budget}
@@ -493,10 +498,10 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                         }}
                         className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border border-[#C5A880]/30 text-sm text-[#222222] dark:text-[#F5F2EB] focus:outline-none focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880] transition-all cursor-pointer"
                       >
-                        <option value="">Select Budget Range (Optional)</option>
+                        <option value="">{t.quoteModal.budgetSelect}</option>
                         {BUDGET_OPTIONS.map((b) => (
                           <option key={b} value={b} className="bg-[#FBF9F5] dark:bg-[#151918]">
-                            {b}
+                            {t.quoteModal.budgetOptions[b] || b}
                           </option>
                         ))}
                       </select>
@@ -510,7 +515,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                         transition={{ duration: 0.25 }}
                       >
                         <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                          Your Budget <span className="text-[#C5A880]">*</span>
+                          {t.quoteModal.customBudget} <span className="text-[#C5A880]">*</span>
                         </label>
                         <input
                           type="text"
@@ -519,7 +524,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                             setFormData({ ...formData, customBudget: e.target.value });
                             if (errors.customBudget) setErrors({ ...errors, customBudget: undefined });
                           }}
-                          placeholder="e.g. ৳2,50,000"
+                          placeholder={t.quoteModal.customBudgetPlaceholder}
                           className={`w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border text-sm text-[#222222] dark:text-[#F5F2EB] placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none transition-all ${
                             errors.customBudget
                               ? 'border-red-400 dark:border-red-500 focus:ring-1 focus:ring-red-400'
@@ -543,7 +548,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-[#C5A880]/20">
                     <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#C5A880]">
-                      4. YOUR SPACE
+                      {t.quoteModal.step4}
                     </span>
                   </div>
 
@@ -551,7 +556,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     {/* Delivery Location */}
                     <div>
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Delivery Location <span className="text-[#C5A880]">*</span>
+                        {t.quoteModal.deliveryLocation} <span className="text-[#C5A880]">*</span>
                       </label>
                       <input
                         type="text"
@@ -560,7 +565,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                           setFormData({ ...formData, deliveryLocation: e.target.value });
                           if (errors.deliveryLocation) setErrors({ ...errors, deliveryLocation: undefined });
                         }}
-                        placeholder="e.g. Chattogram, Agrabad"
+                        placeholder={t.quoteModal.deliveryLocationPlaceholder}
                         className={`w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border text-sm text-[#222222] dark:text-[#F5F2EB] placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none transition-all ${
                           errors.deliveryLocation
                             ? 'border-red-400 dark:border-red-500 focus:ring-1 focus:ring-red-400'
@@ -578,17 +583,17 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     {/* Preferred Timeline */}
                     <div>
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 mb-1.5">
-                        Preferred Timeline (Optional)
+                        {t.quoteModal.timeline}
                       </label>
                       <select
                         value={formData.timeline}
                         onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border border-[#C5A880]/30 text-sm text-[#222222] dark:text-[#F5F2EB] focus:outline-none focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880] transition-all cursor-pointer"
                       >
-                        <option value="">Select Timeline (Optional)</option>
-                        {TIMELINE_OPTIONS.map((t) => (
-                          <option key={t} value={t} className="bg-[#FBF9F5] dark:bg-[#151918]">
-                            {t}
+                        <option value="">{t.quoteModal.timelineSelect}</option>
+                        {TIMELINE_OPTIONS.map((tl) => (
+                          <option key={tl} value={tl} className="bg-[#FBF9F5] dark:bg-[#151918]">
+                            {t.quoteModal.timelineOptions[tl] || tl}
                           </option>
                         ))}
                       </select>
@@ -599,7 +604,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">
-                        Project Requirements / Space Details
+                        {t.quoteModal.projectDetails}
                       </label>
                       <span className="text-[11px] text-neutral-400 font-mono">
                         {formData.projectDetails.length}/1000
@@ -610,7 +615,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                       maxLength={1000}
                       value={formData.projectDetails}
                       onChange={(e) => setFormData({ ...formData, projectDetails: e.target.value })}
-                      placeholder="Tell us about your space, approximate dimensions, preferred wood or finish, color, quantity, design requirements, or anything else we should know…"
+                      placeholder={t.quoteModal.projectDetailsPlaceholder}
                       className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#121615] border border-[#C5A880]/30 text-sm text-[#222222] dark:text-[#F5F2EB] placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880] transition-all resize-none leading-relaxed"
                     />
                   </div>
@@ -622,12 +627,12 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-[#C5A880]/20">
                     <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#C5A880]">
-                      5. REFERENCE IMAGES (OPTIONAL)
+                      {t.quoteModal.step5}
                     </span>
                   </div>
 
                   <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-light">
-                    Upload furniture references, sketches, room photos or floor plans.
+                    {t.quoteModal.step5Subtitle}
                   </p>
 
                   {/* Hidden File Input */}
@@ -657,10 +662,10 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                     </div>
                     <div>
                       <p className="text-xs sm:text-sm font-medium text-[#222222] dark:text-[#F5F2EB]">
-                        Click to upload or drag & drop reference files
+                        {t.quoteModal.uploadText}
                       </p>
                       <p className="text-[11px] text-neutral-400 font-light mt-0.5">
-                        Supports JPG, PNG, WebP (up to 6 files)
+                        {t.quoteModal.uploadSubtext}
                       </p>
                     </div>
                   </div>
@@ -708,7 +713,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 pb-2 border-b border-[#C5A880]/20">
                     <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#C5A880]">
-                      6. PREFERRED CONSULTATION
+                      {t.quoteModal.step6}
                     </span>
                   </div>
 
@@ -728,17 +733,17 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                           <Building2 className="w-4 h-4" />
                         </div>
                         <h5 className="font-serif text-sm font-semibold text-[#222222] dark:text-[#F5F2EB]">
-                          1. Showroom Visit
+                          {t.quoteModal.consultationShowroom}
                         </h5>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400 font-light">
-                          Visit our showroom
+                          {t.quoteModal.consultationShowroomDesc}
                         </p>
                       </div>
 
                       {formData.consultationType === 'showroom' && (
                         <div className="mt-3 pt-2 border-t border-[#C5A880]/20 flex items-center gap-1.5 text-[11px] font-medium text-[#C5A880]">
                           <MapPin className="w-3 h-3 shrink-0" />
-                          <span>Showroom: Agrabad</span>
+                          <span>{t.quoteModal.consultationShowroomBadge}</span>
                         </div>
                       )}
                     </button>
@@ -758,10 +763,10 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                           <PhoneCall className="w-4 h-4" />
                         </div>
                         <h5 className="font-serif text-sm font-semibold text-[#222222] dark:text-[#F5F2EB]">
-                          2. WhatsApp / Phone
+                          {t.quoteModal.consultationRemote}
                         </h5>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400 font-light">
-                          Discuss your project remotely
+                          {t.quoteModal.consultationRemoteDesc}
                         </p>
                       </div>
                     </button>
@@ -781,10 +786,10 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                           <Compass className="w-4 h-4" />
                         </div>
                         <h5 className="font-serif text-sm font-semibold text-[#222222] dark:text-[#F5F2EB]">
-                          3. Free Design Consultation
+                          {t.quoteModal.consultationGuidance}
                         </h5>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400 font-light">
-                          Get guidance from our team
+                          {t.quoteModal.consultationGuidanceDesc}
                         </p>
                       </div>
                     </button>
@@ -797,7 +802,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 <div className="pt-4 border-t border-[#C5A880]/20 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 order-2 sm:order-1">
                     <ShieldCheck className="w-4 h-4 text-[#C5A880]" />
-                    <span>Your information is safe with us.</span>
+                    <span>{t.quoteModal.securityNotice}</span>
                   </div>
 
                   <div className="flex items-center gap-3 w-full sm:w-auto justify-end order-1 sm:order-2">
@@ -806,7 +811,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                       onClick={onClose}
                       className="px-5 py-3 rounded-xl text-xs uppercase tracking-wider font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
                     >
-                      Cancel
+                      {t.quoteModal.cancel}
                     </button>
 
                     <button
@@ -817,11 +822,11 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                       {isSubmitting ? (
                         <>
                           <span className="w-4 h-4 border-2 border-[#121414] border-t-transparent rounded-full animate-spin"></span>
-                          <span>Processing...</span>
+                          <span>{t.quoteModal.processing}</span>
                         </>
                       ) : (
                         <>
-                          <span>SUBMIT QUOTE REQUEST</span>
+                          <span>{t.quoteModal.submit}</span>
                           <ArrowRight className="w-4 h-4" />
                         </>
                       )}

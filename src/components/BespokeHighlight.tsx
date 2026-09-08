@@ -1,59 +1,25 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Sparkles, Ruler, Compass, ShieldCheck, Check } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 interface BespokeHighlightProps {
   openQuoteModalWithCategory: (category: string) => void;
 }
 
-interface ProcessStep {
-  number: string;
-  title: string;
-  description: string;
-  detail: string;
-}
-
 export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteModalWithCategory }) => {
   const [activeStep, setActiveStep] = useState<number | null>(null);
+  const { language } = useLanguage();
+  const t = translations[language];
 
-  const processSteps: ProcessStep[] = [
-    {
-      number: '01',
-      title: 'CONSULT',
-      description: 'Understand your needs.',
-      detail: 'Free design dialogue exploring your lifestyle, function, and aesthetic vision.',
-    },
-    {
-      number: '02',
-      title: 'MEASURE',
-      description: 'Work around your space.',
-      detail: 'Precision dimension analysis tailored to your specific architectural layout.',
-    },
-    {
-      number: '03',
-      title: 'DESIGN',
-      description: 'Shape the piece around your taste.',
-      detail: 'Custom 3D blueprints, timber grain selection, and bespoke fabric pairings.',
-    },
-    {
-      number: '04',
-      title: 'CRAFT',
-      description: 'Skilled in-house craftsmanship.',
-      detail: 'Master joinery in seasoned Chittagong timber built inside our dedicated workshop.',
-    },
-    {
-      number: '05',
-      title: 'YOUR SPACE',
-      description: 'A finished piece made for you.',
-      detail: 'White-glove delivery, seamless installation, and permanent structural elegance.',
-    },
-  ];
+  const processSteps = t.bespoke.steps;
 
   const bespokePillars = [
-    { label: "Your Space & Dimensions", icon: Ruler },
-    { label: "Your Taste & Lifestyle", icon: Compass },
-    { label: "Free Design Consultation", icon: Sparkles },
-    { label: "Seasoned Timber & Joinery", icon: ShieldCheck },
+    { label: t.bespoke.pillars.space, icon: Ruler },
+    { label: t.bespoke.pillars.taste, icon: Compass },
+    { label: t.bespoke.pillars.consultation, icon: Sparkles },
+    { label: t.bespoke.pillars.timber, icon: ShieldCheck },
   ];
 
   return (
@@ -81,7 +47,7 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
             >
               <div className="h-[1px] w-10 bg-[#C5A880]" />
               <span className="text-[11px] uppercase tracking-[0.35em] text-[#C5A880] font-semibold">
-                THE BESPOKE EXPERIENCE
+                {t.bespoke.eyebrow}
               </span>
             </motion.div>
 
@@ -93,8 +59,8 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
               transition={{ duration: 0.7, delay: 0.1 }}
               className="text-4xl sm:text-6xl lg:text-7xl font-serif font-normal tracking-tight text-[#F5F2EB] leading-[1.08]"
             >
-              Made For Your Space. <br />
-              <span className="italic text-[#D4B993] font-serif">Made For You.</span>
+              {t.bespoke.titleLine1} <br />
+              <span className="italic text-[#D4B993] font-serif">{t.bespoke.titleLine2}</span>
             </motion.h2>
           </div>
 
@@ -107,7 +73,7 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
               transition={{ duration: 0.7, delay: 0.2 }}
               className="text-base sm:text-lg text-[#D2CBC0] font-light leading-relaxed mb-6"
             >
-              Every space is different. We create bespoke furniture around your measurements, needs, taste and lifestyle.
+              {t.bespoke.description}
             </motion.p>
 
             {/* Brand Differentiator Tagline */}
@@ -120,7 +86,7 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
             >
               <div className="w-2 h-2 rounded-full bg-[#C5A880] shrink-0 mt-1.5 sm:mt-0" />
               <span>
-                <strong className="text-[#F5F2EB] font-semibold">What makes Heaven different:</strong> We don’t simply sell ready-made pieces. We architect custom furniture tailored specifically to your floor plan.
+                <strong className="text-[#F5F2EB] font-semibold">{t.bespoke.differenceTitle}</strong> {t.bespoke.differenceText}
               </span>
             </motion.div>
           </div>
@@ -152,10 +118,10 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
             <div className="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-none">
               <div className="max-w-md">
                 <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#0E1312]/90 border border-[#C5A880]/50 text-[#DFCAAB] text-[11px] sm:text-xs font-semibold uppercase tracking-widest backdrop-blur-md mb-2.5 shadow-md">
-                  Architectural Precision
+                  {t.bespoke.precisionBadge}
                 </span>
                 <p className="text-sm sm:text-base font-serif italic text-[#FAF8F5] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
-                  "Furniture sculpted to synchronize with light, angles, and everyday living."
+                  {t.bespoke.quoteImage}
                 </p>
               </div>
 
@@ -182,14 +148,14 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
           <div className="flex items-center justify-between mb-10 pb-4 border-b border-[#C5A880]/20">
             <div>
               <span className="text-[10px] uppercase tracking-[0.3em] text-[#C5A880] font-semibold block mb-1">
-                FROM CONCEPT TO CREATION
+                {t.bespoke.journeyEyebrow}
               </span>
               <h3 className="text-2xl sm:text-3xl font-serif font-normal text-[#F5F2EB]">
-                The 5-Step Bespoke Journey
+                {t.bespoke.journeyTitle}
               </h3>
             </div>
             <span className="text-xs text-[#A8A196] font-light hidden sm:inline-block">
-              In-House Master Joinery in Chattogram
+              {t.bespoke.workshopTag}
             </span>
           </div>
 
@@ -238,7 +204,7 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="text-[10px] tracking-[0.25em] uppercase text-[#C5A880] font-bold">
-                          STEP {step.number}
+                          {language === 'bn' ? `ধাপ ${step.number}` : `STEP ${step.number}`}
                         </span>
                       </div>
                       <h4 className="text-base sm:text-lg font-serif font-medium text-[#F5F2EB] mb-1 group-hover:text-[#D4B993] transition-colors">
@@ -269,7 +235,7 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
             onClick={() => openQuoteModalWithCategory('Bespoke Interior & Furniture')}
             className="btn-gold-3d px-10 sm:px-14 py-4 sm:py-5 rounded-2xl text-xs sm:text-sm uppercase tracking-[0.22em] font-bold inline-flex items-center gap-3 cursor-pointer shadow-[0_10px_30px_rgba(197,168,128,0.35)] transition-all duration-300"
           >
-            <span>Explore Bespoke</span>
+            <span>{t.bespoke.ctaExplore}</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
         </motion.div>

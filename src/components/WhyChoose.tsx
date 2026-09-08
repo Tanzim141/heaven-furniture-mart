@@ -1,6 +1,8 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { MessageSquare, Layers, Hammer, MapPin, Truck, CreditCard } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 // Import photorealistic 3D generated renders
 import consultationImg from '../assets/images/why_choose_consultation_1788615587477.jpg';
@@ -157,44 +159,33 @@ const InteractiveShowroomCard: React.FC<InteractiveShowroomCardProps> = ({ item,
 };
 
 export const WhyChoose: React.FC = () => {
-  const trustPoints: FeatureCardData[] = [
-    {
-      title: 'Free Design Consultation',
-      description: 'Get thoughtful guidance to plan furniture around your space and needs.',
-      image: consultationImg,
-      icon: <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
-    },
-    {
-      title: 'Fully Bespoke',
-      description: 'Furniture designed and crafted to your exact requirements.',
-      image: bespokeImg,
-      icon: <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
-    },
-    {
-      title: 'Premium Craftsmanship',
-      description: 'Premium-quality wood and high-grade boards, crafted with attention to detail.',
-      image: craftsmanshipImg,
-      icon: <Hammer className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
-    },
-    {
-      title: 'Showroom Experience',
-      description: 'Visit our showroom and explore our furniture in person.',
-      image: showroomImg,
-      icon: <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
-    },
-    {
-      title: 'Delivery & Installation',
-      description: 'Professional delivery and installation for a seamless experience.',
-      image: deliveryImg,
-      icon: <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
-    },
-    {
-      title: 'Flexible Payment Options',
-      description: 'Convenient payment options designed around your furniture purchase.',
-      image: paymentImg,
-      icon: <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
-    },
+  const { language } = useLanguage();
+  const t = translations[language];
+
+  const icons = [
+    <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
+    <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
+    <Hammer className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
+    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
+    <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
+    <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A880]" />,
   ];
+
+  const images = [
+    consultationImg,
+    bespokeImg,
+    craftsmanshipImg,
+    showroomImg,
+    deliveryImg,
+    paymentImg,
+  ];
+
+  const trustPoints: FeatureCardData[] = t.whyChoose.items.map((item, index) => ({
+    title: item.title,
+    description: item.description,
+    image: images[index],
+    icon: icons[index],
+  }));
 
   return (
     <section id="why-heaven" className="py-16 md:py-24 bg-[#F6F1EA] dark:bg-[#121616] transition-colors duration-500 relative overflow-hidden">
@@ -211,17 +202,17 @@ export const WhyChoose: React.FC = () => {
           <div className="flex items-center justify-center gap-3 mb-3">
             <div className="h-[1px] w-10 bg-[#C5A880]" />
             <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] text-[#8C7355] dark:text-[#C5A880] font-bold">
-              THE HEAVEN STANDARD
+              {t.whyChoose.eyebrow}
             </span>
             <div className="h-[1px] w-10 bg-[#C5A880]" />
           </div>
 
           <h2 className="text-2xl sm:text-4xl font-serif font-medium tracking-tight text-[#222222] dark:text-[#F3F0EA]">
-            Why Choose Heaven Furniture Mart
+            {t.whyChoose.title}
           </h2>
 
           <p className="mt-2.5 text-neutral-600 dark:text-neutral-300 font-light text-xs sm:text-sm md:text-base leading-relaxed">
-            Quality, craftsmanship, and service designed around you.
+            {t.whyChoose.subtitle}
           </p>
         </div>
 

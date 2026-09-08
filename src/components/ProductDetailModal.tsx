@@ -2,23 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X,
-  Check,
-  Clock,
-  Ruler,
-  Sparkles,
-  MessageCircle,
-  ArrowRight,
   ShieldCheck,
   Image as ImageIcon,
-  Layers,
   ZoomIn,
   ZoomOut,
   Maximize2,
   ChevronLeft,
   ChevronRight,
   RotateCcw,
+  MessageCircle,
+  ArrowRight,
 } from 'lucide-react';
 import { Product } from '../types';
+import { useLanguage } from '../context/LanguageContext';
+import { translations, productTranslationsBn } from '../data/translations';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -35,6 +32,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [imageError, setImageError] = useState<boolean>(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
   const [lightboxZoom, setLightboxZoom] = useState<number>(1);
+
+  const { language, isBangla } = useLanguage();
+  const t = translations[language];
 
   useEffect(() => {
     setActiveImageIndex(0);
@@ -61,6 +61,16 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
   if (!product) return null;
 
+  const bnData = isBangla ? productTranslationsBn[product.id] : null;
+  const displayName = bnData?.name || product.name;
+  const displayCategory = bnData?.category || product.category;
+  const displayWood = bnData?.wood || product.wood;
+  const displayMaterial = bnData?.material || product.material;
+  const displayDimensions = bnData?.dimensions || product.dimensions;
+  const displayDescription = bnData?.description || product.description;
+  const displayLeadTime = bnData?.leadTime || product.leadTime;
+  const displayOrderType = bnData?.orderType || product.orderType || (isBangla ? 'কাস্টমাইজড' : 'Made to Order');
+
   const galleryImages = product.gallery && product.gallery.length > 0
     ? product.gallery
     : [product.image];
@@ -80,7 +90,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   };
 
   const whatsappInquiryUrl = `https://wa.me/8801960481983?text=${encodeURIComponent(
-    `Hello Heaven Furniture Mart, I am interested in inquiring about "${product.name}" (${product.category}). Could you please share quotation and customization details?`
+    `Hello Heaven Furniture Mart, I am interested in inquiring about "${displayName}" (${displayCategory}). Could you please share quotation and customization details?`
   )}`;
 
   return (
@@ -217,7 +227,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               <div className="mt-4 pt-3 border-t border-[#C5A880]/20 flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400 font-light">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#C5A880] shrink-0" />
-                  <span>Delivery & Assembly Available</span>
+                  <span>{t.products.deliveryAssemblyNote}</span>
                 </div>
                 <button
                   type="button"
@@ -225,7 +235,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   className="text-[11px] text-[#C5A880] hover:underline flex items-center gap-1 font-medium cursor-pointer"
                 >
                   <Maximize2 className="w-3 h-3" />
-                  <span>Full View</span>
+                  <span>{t.products.fullView}</span>
                 </button>
               </div>
             </div>
@@ -238,63 +248,63 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 {/* Category & Order Type header */}
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#C5A880] bg-[#C5A880]/10 dark:bg-[#C5A880]/20 px-3 py-1 rounded-md">
-                    {product.category}
+                    {displayCategory}
                   </span>
 
                   <span className="text-xs font-semibold uppercase tracking-wider text-neutral-600 dark:text-neutral-300">
-                    Order Type: <strong className="text-[#222222] dark:text-[#F3F0EA]">{product.orderType || 'Made to Order'}</strong>
+                    {t.products.orderType}: <strong className="text-[#222222] dark:text-[#F3F0EA]">{displayOrderType}</strong>
                   </span>
                 </div>
 
                 {/* Product Name */}
                 <h3 className="text-2xl sm:text-3xl font-serif font-medium tracking-tight text-[#222222] dark:text-[#F3F0EA]">
-                  {product.name}
+                  {displayName}
                 </h3>
 
                 {/* Description */}
                 <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 font-light leading-relaxed">
-                  {product.description}
+                  {displayDescription}
                 </p>
 
                 {/* Specifications Grid */}
                 <div>
                   <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C5A880] mb-2.5">
-                    SPECIFICATIONS
+                    {t.products.specifications}
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-[#F2ECE1]/60 dark:bg-[#1A2020] p-4 rounded-xl border border-[#C5A880]/20">
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500 block">
-                        Dimensions
+                        {t.products.dimensions}
                       </span>
                       <span className="text-xs font-medium text-[#222222] dark:text-[#F3F0EA]">
-                        {product.dimensions}
+                        {displayDimensions}
                       </span>
                     </div>
 
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500 block">
-                        Wood / Board
+                        {t.products.woodBoard}
                       </span>
                       <span className="text-xs font-medium text-[#222222] dark:text-[#F3F0EA]">
-                        {product.wood}
+                        {displayWood}
                       </span>
                     </div>
 
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500 block">
-                        Primary Material
+                        {t.products.primaryMaterial}
                       </span>
                       <span className="text-xs font-medium text-[#222222] dark:text-[#F3F0EA]">
-                        {product.material}
+                        {displayMaterial}
                       </span>
                     </div>
 
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500 block">
-                        Lead Time
+                        {t.products.leadTime}
                       </span>
                       <span className="text-xs font-medium text-[#222222] dark:text-[#F3F0EA]">
-                        {product.leadTime}
+                        {displayLeadTime}
                       </span>
                     </div>
                   </div>
@@ -303,39 +313,39 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 {/* Customization Section */}
                 <div>
                   <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C5A880] mb-2.5">
-                    CUSTOMIZATION AVAILABLE
+                    {t.products.customizationAvailable}
                   </h4>
                   <div className="space-y-2 text-xs text-neutral-600 dark:text-neutral-300 bg-white/50 dark:bg-[#121616] p-3.5 rounded-xl border border-[#C5A880]/20">
                     <div className="flex items-start gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-1.5 shrink-0" />
-                      <span><strong>Custom Dimensions:</strong> Built to your exact room blueprint & space plan</span>
+                      <span>{t.products.customDimensions}</span>
                     </div>
 
                     {product.colors && product.colors.length > 0 && (
                       <div className="flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-1.5 shrink-0" />
-                        <span><strong>Color Selection:</strong> {product.colors.join(', ')}</span>
+                        <span><strong>{t.products.colorSelection}</strong> {product.colors.join(', ')}</span>
                       </div>
                     )}
 
                     {product.veneers && product.veneers.length > 0 && (
                       <div className="flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-1.5 shrink-0" />
-                        <span><strong>Veneer Selection:</strong> {product.veneers.join(', ')}</span>
+                        <span><strong>{t.products.veneerSelection}</strong> {product.veneers.join(', ')}</span>
                       </div>
                     )}
 
                     {product.finishes && product.finishes.length > 0 && (
                       <div className="flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-1.5 shrink-0" />
-                        <span><strong>Finish Selection:</strong> {product.finishes.join(', ')}</span>
+                        <span><strong>{t.products.finishSelection}</strong> {product.finishes.join(', ')}</span>
                       </div>
                     )}
 
                     {product.fabrics && product.fabrics.length > 0 && (
                       <div className="flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-1.5 shrink-0" />
-                        <span><strong>Fabric Selection:</strong> {product.fabrics.join(', ')}</span>
+                        <span><strong>{t.products.fabricSelection}</strong> {product.fabrics.join(', ')}</span>
                       </div>
                     )}
                   </div>
@@ -352,7 +362,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   }}
                   className="flex-1 py-3.5 px-6 rounded-xl bg-[#C5A880] hover:bg-[#d5ba94] text-[#121414] text-xs uppercase font-bold tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
                 >
-                  <span>REQUEST QUOTE</span>
+                  <span>{t.products.requestQuote}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
@@ -363,7 +373,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   className="py-3.5 px-6 rounded-xl border border-[#C5A880]/40 text-[#222222] dark:text-[#F3F0EA] hover:bg-[#222222] hover:text-white dark:hover:bg-white dark:hover:text-[#121414] text-xs uppercase font-semibold tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4 text-[#25D366]" />
-                  <span>WHATSAPP</span>
+                  <span>{t.products.whatsapp}</span>
                 </a>
               </div>
             </div>
@@ -388,11 +398,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div className="flex items-center justify-between gap-4 py-2 px-3 border-b border-white/10 z-20">
             <div className="flex items-center gap-3">
               <span className="text-xs uppercase tracking-widest text-[#C5A880] font-bold">
-                {product.category}
+                {displayCategory}
               </span>
               <span className="text-white/40 text-xs">•</span>
               <h4 className="text-sm sm:text-base font-serif font-medium text-white truncate max-w-[200px] sm:max-w-md">
-                {product.name}
+                {displayName}
               </h4>
               {galleryImages.length > 1 && (
                 <span className="text-xs text-white/60 bg-white/10 px-2 py-0.5 rounded-full font-mono">
@@ -510,8 +520,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {/* Lightbox Footer Bar with Info and Actions */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 sm:pt-3 border-t border-white/10 z-20 text-white">
             <div className="text-xs text-white/70 flex items-center gap-2">
-              <span className="hidden sm:inline">Tip: Click photo or use buttons to zoom. Press ESC to close.</span>
-              <span className="sm:hidden">Tap photo to zoom • ESC to close</span>
+              <span className="hidden sm:inline">{t.products.zoomHint}</span>
+              <span className="sm:hidden">{t.products.zoomHintMobile}</span>
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -524,7 +534,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 }}
                 className="flex-1 sm:flex-none py-2 px-4 rounded-lg bg-[#C5A880] hover:bg-[#d5ba94] text-[#121414] text-xs uppercase font-bold tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
               >
-                <span>Inquire About This Piece</span>
+                <span>{t.products.inquireAboutPiece}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
 
@@ -535,7 +545,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 className="py-2 px-4 rounded-lg bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/40 text-white text-xs uppercase font-semibold tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
-                <span>WhatsApp</span>
+                <span>{t.products.whatsapp}</span>
               </a>
             </div>
           </div>

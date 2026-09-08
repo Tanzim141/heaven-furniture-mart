@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export const FloatingWhatsApp: React.FC = () => {
-  const whatsappUrl =
-    'https://wa.me/8801960481983?text=Hello%20Heaven%20Furniture%20Mart,%20I%20would%20like%20to%20discuss%20a%20bespoke%20furniture%20or%20interior%20styling%20project.';
+  const { language } = useLanguage();
+  const t = translations[language];
+
+  const whatsappMessage = language === 'bn'
+    ? 'হ্যালো হ্যাভেন ফার্নিচার মার্ট, আমি কাস্টম ফার্নিচার বা ইন্টেরিয়র স্টাইলিং সম্পর্কে জানতে চাই।'
+    : 'Hello Heaven Furniture Mart, I would like to discuss a bespoke furniture or interior styling project.';
+  const whatsappUrl = `https://wa.me/8801960481983?text=${encodeURIComponent(whatsappMessage)}`;
 
   const [isHovered, setIsHovered] = useState(false);
   const [constraints, setConstraints] = useState({
@@ -61,7 +68,7 @@ export const FloatingWhatsApp: React.FC = () => {
       className="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing select-none touch-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      title="Drag to any position on the screen. Click to chat on WhatsApp."
+      title={language === 'bn' ? 'স্ক্রিনে যেকোনো জায়গায় ড্র্যাগ করতে পারেন। হোয়াটসঅ্যাপে কথা বলতে ক্লিক করুন।' : 'Drag to any position on the screen. Click to chat on WhatsApp.'}
     >
       <a
         href={whatsappUrl}
@@ -77,7 +84,7 @@ export const FloatingWhatsApp: React.FC = () => {
             isHovered ? 'max-w-xs pl-2 pr-1 opacity-100' : 'max-w-0 pl-0 pr-0 opacity-0'
           }`}
         >
-          WhatsApp Us
+          {t.whatsapp.chatText}
         </span>
       </a>
     </motion.div>

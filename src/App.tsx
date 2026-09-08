@@ -12,8 +12,9 @@ import { Footer } from './components/Footer';
 import { QuoteModal } from './components/QuoteModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Product } from './types';
+import { LanguageProvider } from './context/LanguageContext';
 
-export default function App() {
+function AppContent() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem('heaven_theme');
     if (saved !== null) {
@@ -87,5 +88,13 @@ export default function App() {
       {/* Floating WhatsApp Button */}
       <FloatingWhatsApp />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }

@@ -1,8 +1,13 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Facebook, Instagram, Youtube } from 'lucide-react';
 import { Logo } from './Logo';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export const Footer: React.FC = () => {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <footer className="bg-[#0D0F0F] text-[#F3F0EA] pt-20 pb-12 border-t border-[#C5A880]/20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -12,7 +17,7 @@ export const Footer: React.FC = () => {
             <Logo lightText={true} />
 
             <p className="text-sm text-neutral-400 font-light leading-relaxed">
-              Luxury Furniture & Interior Styling. Crafted in Chattogram. Since 2020.
+              {t.footer.tagline}
             </p>
 
             <div className="flex items-center space-x-4">
@@ -48,36 +53,38 @@ export const Footer: React.FC = () => {
 
           {/* Col 2: Quick Links */}
           <div className="space-y-4">
-            <h4 className="font-serif text-lg font-medium text-white tracking-wide">Quick Links</h4>
+            <h4 className="font-serif text-lg font-medium text-white tracking-wide">
+              {t.footer.quickLinks}
+            </h4>
             <ul className="space-y-2.5">
               <li>
                 <a href="#home" className="text-sm text-neutral-400 hover:text-[#C5A880] transition-colors">
-                  Home
+                  {t.footer.links.home}
                 </a>
               </li>
               <li>
                 <a href="#products" className="text-sm text-neutral-400 hover:text-[#C5A880] transition-colors">
-                  Products
+                  {t.footer.links.products}
                 </a>
               </li>
               <li>
                 <a href="#bespoke" className="text-sm text-neutral-400 hover:text-[#C5A880] transition-colors">
-                  Bespoke
+                  {t.footer.links.bespoke}
                 </a>
               </li>
               <li>
                 <a href="#why-choose" className="text-sm text-neutral-400 hover:text-[#C5A880] transition-colors">
-                  Why Heaven
+                  {t.footer.links.whyHeaven}
                 </a>
               </li>
               <li>
                 <a href="#about" className="text-sm text-neutral-400 hover:text-[#C5A880] transition-colors">
-                  About
+                  {t.footer.links.about}
                 </a>
               </li>
               <li>
                 <a href="#contact" className="text-sm text-neutral-400 hover:text-[#C5A880] transition-colors">
-                  Contact
+                  {t.footer.links.contact}
                 </a>
               </li>
             </ul>
@@ -85,23 +92,25 @@ export const Footer: React.FC = () => {
 
           {/* Col 3: Collections */}
           <div className="space-y-4">
-            <h4 className="font-serif text-lg font-medium text-white tracking-wide">Collections</h4>
+            <h4 className="font-serif text-lg font-medium text-white tracking-wide">
+              {t.footer.collections}
+            </h4>
             <ul className="space-y-2.5 text-sm text-neutral-400 font-light">
-              <li>Living Room (Sofas & Consoles)</li>
-              <li>Bedroom (Beds & Wardrobes)</li>
-              <li>Dining (Tables & Sideboards)</li>
-              <li>Signature Bespoke Projects</li>
-              <li>Interior Styling Consultations</li>
+              {t.footer.collectionsList.map((item, index) => (
+                <li key={`col-item-${index}`}>{item}</li>
+              ))}
             </ul>
           </div>
 
           {/* Col 4: Contact Info */}
           <div className="space-y-4">
-            <h4 className="font-serif text-lg font-medium text-white tracking-wide">Showroom & Contact</h4>
+            <h4 className="font-serif text-lg font-medium text-white tracking-wide">
+              {t.footer.showroomContact}
+            </h4>
             <ul className="space-y-3 text-sm text-neutral-400 font-light">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#C5A880] shrink-0 mt-0.5" />
-                <span>Agrabad Access Road, Chattogram, Bangladesh</span>
+                <span>{t.footer.address}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#C5A880] shrink-0" />
@@ -121,7 +130,7 @@ export const Footer: React.FC = () => {
 
         {/* Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-center text-center text-xs text-neutral-500 font-light">
-          <p>© 2026 Heaven Furniture Mart. All rights reserved.</p>
+          <p>{t.footer.rights}</p>
         </div>
       </div>
     </footer>

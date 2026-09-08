@@ -1,13 +1,16 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 interface HeroProps {
   openQuoteModal: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ openQuoteModal }) => {
-  const whatsappUrl = "https://wa.me/8801960481983?text=Hello%20Heaven%20Furniture%20Mart,%20I%20would%20like%20to%20inquire%20about%20bespoke%20furniture%20design.";
+export const Hero: React.FC<HeroProps> = () => {
+  const { language } = useLanguage();
+  const t = translations[language];
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-16">
@@ -29,10 +32,10 @@ export const Hero: React.FC<HeroProps> = ({ openQuoteModal }) => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-serif font-medium text-white tracking-tight leading-[1.1] mb-8"
+            className="text-4xl sm:text-6xl lg:text-7xl font-serif font-medium text-white tracking-tight leading-[1.15] mb-8"
           >
-            Furniture, <br />
-            <span className="italic font-normal text-[#C5A880]">Crafted Around You.</span>
+            {t.hero.titlePart1} <br />
+            <span className="italic font-normal text-[#C5A880]">{t.hero.titlePart2}</span>
           </motion.h1>
 
           {/* Supporting Copy */}
@@ -42,7 +45,7 @@ export const Hero: React.FC<HeroProps> = ({ openQuoteModal }) => {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="text-lg sm:text-xl text-neutral-200 font-light leading-relaxed mb-10 max-w-2xl"
           >
-            Bespoke furniture, thoughtfully designed and crafted with uncompromising precision.
+            {t.hero.description}
           </motion.p>
 
           {/* CTAs with 3D Button System */}
@@ -56,7 +59,7 @@ export const Hero: React.FC<HeroProps> = ({ openQuoteModal }) => {
               href="#bespoke"
               className="btn-gold-3d px-8 py-4 rounded-xl text-sm uppercase font-bold tracking-wider flex items-center justify-center gap-3 cursor-pointer group text-center"
             >
-              <span>Explore Bespoke</span>
+              <span>{t.hero.ctaBespoke}</span>
               <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </a>
           </motion.div>
@@ -65,7 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ openQuoteModal }) => {
 
       {/* Scroll Down Indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center text-white/70">
-        <span className="text-[10px] uppercase tracking-[0.25em] mb-2 font-medium">Scroll to explore</span>
+        <span className="text-[10px] uppercase tracking-[0.25em] mb-2 font-medium">{t.hero.scrollExplore}</span>
         <div className="w-5 h-9 rounded-full border-2 border-white/30 flex items-start justify-center p-1">
           <div className="w-1 h-2 bg-[#C5A880] rounded-full animate-bounce" />
         </div>

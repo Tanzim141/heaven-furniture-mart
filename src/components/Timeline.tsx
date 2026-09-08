@@ -1,36 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Milestone } from '../types';
-import { Award, Calendar } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export const Timeline: React.FC = () => {
-  const milestones: Milestone[] = [
-    {
-      year: '2020',
-      title: 'Foundation',
-      description: 'Founded by Abul Kalam Bhuiyan with a commitment to bespoke luxury craftsmanship.',
-    },
-    {
-      year: '2021',
-      title: 'Showroom Launch',
-      description: 'Opened the large physical showroom on Agrabad Access Road, Chattogram.',
-    },
-    {
-      year: '2024–2025',
-      title: 'International Furniture Fair',
-      description: 'Exhibited flagship bespoke furniture collections at the International Furniture Fair, Chattogram.',
-    },
-    {
-      year: '2025',
-      title: 'Chamber of Commerce',
-      description: 'Became an esteemed member of the Chamber of Commerce.',
-    },
-    {
-      year: '2026',
-      title: 'BFIOA Recognition',
-      description: 'Received nationwide BFIOA recognition for excellence in bespoke interior styling and design.',
-    },
-  ];
+  const { language } = useLanguage();
+  const t = translations[language];
+  const milestones = t.timeline.milestones;
 
   return (
     <section className="py-24 md:py-32 bg-[#FBF9F5] dark:bg-[#121414] transition-colors duration-500">
@@ -40,15 +16,15 @@ export const Timeline: React.FC = () => {
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-[1px] w-12 bg-[#C5A880]" />
             <span className="text-xs uppercase tracking-[0.3em] text-[#C5A880] font-semibold">
-              Our Journey
+              {t.timeline.eyebrow}
             </span>
             <div className="h-[1px] w-12 bg-[#C5A880]" />
           </div>
           <h2 className="text-3xl sm:text-5xl font-serif font-medium tracking-tight text-[#222222] dark:text-[#F3F0EA]">
-            Milestones of Excellence
+            {t.timeline.title}
           </h2>
           <p className="mt-4 text-neutral-600 dark:text-neutral-400 font-light text-base">
-            Tracing our growth from a visionary boutique studio to a recognized leader in bespoke furniture.
+            {t.timeline.subtitle}
           </p>
         </div>
 

@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { Search, SlidersHorizontal, RefreshCw, Layers } from 'lucide-react';
 import { Product, ProductCategory } from '../types';
 import { productsData } from '../data/products';
 import { ProductCard } from './ProductCard';
 import { ProductDetailModal } from './ProductDetailModal';
+import { useLanguage } from '../context/LanguageContext';
+import { translations, productTranslationsBn } from '../data/translations';
 
 interface ProductsSectionProps {
   onSelectProductForQuote: (product: Product) => void;
@@ -19,14 +21,17 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
   const [sortOption, setSortOption] = useState<SortOption>('featured');
   const [activeModalProduct, setActiveModalProduct] = useState<Product | null>(null);
 
-  // Dynamic category calculations
+  const { language, isBangla } = useLanguage();
+  const t = translations[language];
+
+  // Dynamic category calculations with localized labels
   const categories: { label: string; value: FilterCategory; count: number }[] = [
-    { label: 'All Products', value: 'All', count: productsData.length },
-    { label: 'Living Room', value: 'Living Room', count: productsData.filter((p) => p.category === 'Living Room' || p.category === 'Living').length },
-    { label: 'Bedroom', value: 'Bedroom', count: productsData.filter((p) => p.category === 'Bedroom').length },
-    { label: 'Dining', value: 'Dining', count: productsData.filter((p) => p.category === 'Dining').length },
-    { label: 'Office', value: 'Office', count: productsData.filter((p) => p.category === 'Office').length },
-    { label: 'Outdoor', value: 'Outdoor', count: productsData.filter((p) => p.category === 'Outdoor').length },
+    { label: t.products.allProducts, value: 'All', count: productsData.length },
+    { label: t.products.livingRoom, value: 'Living Room', count: productsData.filter((p) => p.category === 'Living Room' || p.category === 'Living').length },
+    { label: t.products.bedroom, value: 'Bedroom', count: productsData.filter((p) => p.category === 'Bedroom').length },
+    { label: t.products.dining, value: 'Dining', count: productsData.filter((p) => p.category === 'Dining').length },
+    { label: t.products.office, value: 'Office', count: productsData.filter((p) => p.category === 'Office').length },
+    { label: t.products.outdoor, value: 'Outdoor', count: productsData.filter((p) => p.category === 'Outdoor').length },
   ];
 
   const filteredProducts = useMemo(() => {
@@ -37,6 +42,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
           product.category === selectedCategory ||
           (selectedCategory === 'Living Room' && product.category === 'Living');
         const q = searchQuery.toLowerCase().trim();
+        const bn = productTranslationsBn[product.id];
         const matchesSearch =
           q === '' ||
           product.name.toLowerCase().includes(q) ||
@@ -44,7 +50,15 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
           product.material.toLowerCase().includes(q) ||
           product.wood.toLowerCase().includes(q) ||
           product.description.toLowerCase().includes(q) ||
-          (product.badge && product.badge.toLowerCase().includes(q));
+          (product.badge && product.badge.toLowerCase().includes(q)) ||
+          (bn && (
+            bn.name.toLowerCase().includes(q) ||
+            bn.category.toLowerCase().includes(q) ||
+            bn.material.toLowerCase().includes(q) ||
+            bn.wood.toLowerCase().includes(q) ||
+            bn.description.toLowerCase().includes(q) ||
+            (bn.badge && bn.badge.toLowerCase().includes(q))
+          ));
 
         return matchesCategory && matchesSearch;
       })
@@ -70,15 +84,15 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
             <div className="flex items-center gap-3 mb-3">
               <div className="h-[1px] w-10 bg-[#C5A880]" />
               <span className="text-[11px] uppercase tracking-[0.3em] text-[#C5A880] font-bold">
-                OUR SIGNATURE FURNITURE
+                {t.products.eyebrow}
               </span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-serif font-medium tracking-tight text-[#222222] dark:text-[#F3F0EA]">
-              Featured Products
+              {t.products.title}
             </h2>
           </div>
           <p className="mt-4 md:mt-0 text-neutral-600 dark:text-neutral-400 font-light max-w-md text-xs sm:text-sm leading-relaxed">
-            Every piece is made-to-order using premium-quality wood and high-grade boards, customized to your exact measurements, preferred colors, veneers, finishes, and fabric selections.
+            {t.products.subtitle}
           </p>
         </div>
 
@@ -123,7 +137,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products by name, category, or style..."
+                placeholder={t.products.searchPlaceholder}
                 className="w-full pl-9 pr-8 py-2.5 rounded-xl bg-transparent border border-neutral-200 dark:border-neutral-700/60 text-xs focus:outline-none focus:border-[#C5A880] text-[#222222] dark:text-[#F3F0EA] placeholder:text-neutral-400"
               />
               {searchQuery && (
@@ -139,7 +153,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
             {/* Sorting Dropdown */}
             <div className="flex items-center justify-between w-full sm:w-auto gap-4">
               <span className="text-xs text-neutral-500 dark:text-neutral-400 font-light hidden lg:inline-block">
-                Showing <strong className="font-semibold text-[#222222] dark:text-white">{filteredProducts.length}</strong> products
+                {t.products.showingText} <strong className="font-semibold text-[#222222] dark:text-white">{filteredProducts.length}</strong> {t.products.productsText}
               </span>
 
               <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
@@ -149,9 +163,9 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
                   onChange={(e) => setSortOption(e.target.value as SortOption)}
                   className="bg-transparent border border-neutral-200 dark:border-neutral-700/60 text-xs rounded-xl px-3 py-2 text-[#222222] dark:text-[#F3F0EA] focus:outline-none focus:border-[#C5A880] cursor-pointer"
                 >
-                  <option value="featured" className="bg-[#FBF9F5] dark:bg-[#161919]">Featured</option>
-                  <option value="newest" className="bg-[#FBF9F5] dark:bg-[#161919]">Newest</option>
-                  <option value="popular" className="bg-[#FBF9F5] dark:bg-[#161919]">Popular</option>
+                  <option value="featured" className="bg-[#FBF9F5] dark:bg-[#161919]">{t.products.sortFeatured}</option>
+                  <option value="newest" className="bg-[#FBF9F5] dark:bg-[#161919]">{t.products.sortNewest}</option>
+                  <option value="popular" className="bg-[#FBF9F5] dark:bg-[#161919]">{t.products.sortPopular}</option>
                 </select>
               </div>
             </div>
@@ -179,10 +193,10 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
           <div className="text-center py-16 sm:py-20 bg-[#FBF9F5] dark:bg-[#1B2020] rounded-3xl border border-[#C5A880]/20 p-8">
             <Layers className="w-12 h-12 text-[#C5A880] mx-auto mb-4 opacity-50" />
             <h3 className="text-xl font-serif font-medium text-[#222222] dark:text-[#F3F0EA] mb-2">
-              No Products Found
+              {t.products.emptyTitle}
             </h3>
             <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 max-w-md mx-auto mb-6">
-              We couldn't find any products matching your search or filters. You can reset filters or request a custom bespoke quotation.
+              {t.products.emptyDescription}
             </p>
             <button
               onClick={() => {
@@ -192,7 +206,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#C5A880] text-[#121414] font-bold text-xs uppercase tracking-wider hover:bg-[#d4b993] transition-colors cursor-pointer shadow-sm"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Reset Filters</span>
+              <span>{t.products.resetFilters}</span>
             </button>
           </div>
         )}
@@ -203,32 +217,32 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onSelectProduc
         <div className="mt-16 bg-gradient-to-r from-[#142624] to-[#0D1918] text-white p-7 sm:p-10 md:p-12 rounded-3xl border border-[#C5A880]/30 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="relative z-10 max-w-xl">
             <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-[#C5A880] text-[11px] font-semibold uppercase tracking-wider mb-3">
-              <span>Tailored To Your Space</span>
+              <span>{t.products.calloutBadge}</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-serif font-medium mb-2.5">
-              Need a completely custom size, finish, or architectural layout?
+              {t.products.calloutTitle}
             </h3>
             <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-              Every home is unique. Share your floor plan or sketch with our team, and we will engineer custom blueprints and exact estimations.
+              {t.products.calloutText}
             </p>
           </div>
 
           <button
             onClick={() => onSelectProductForQuote({
               id: 'custom-bespoke',
-              name: 'Custom Architectural Furniture Project',
+              name: isBangla ? 'কাস্টম ফার্নিচার আর্কিটেকচারাল প্রজেক্ট' : 'Custom Architectural Furniture Project',
               category: 'Living Room',
               image: '',
-              material: 'Custom Material Selection',
-              wood: 'Premium Hardwood & High-Grade Board',
-              dimensions: 'Custom Room Dimensions',
-              description: 'Custom bespoke furniture project tailored around specific room architecture.',
-              orderType: 'Bespoke',
-              leadTime: '15–25 Days',
+              material: isBangla ? 'পছন্দসই উপাদান সিলেকশন' : 'Custom Material Selection',
+              wood: isBangla ? 'প্রিমিয়াম হার্ডউড ও হাই-গ্রেড বোর্ড' : 'Premium Hardwood & High-Grade Board',
+              dimensions: isBangla ? 'ঘরের নির্দিষ্ট মাপ অনুযায়ী' : 'Custom Room Dimensions',
+              description: isBangla ? 'নির্দিষ্ট ফ্লোর প্ল্যান অনুযায়ী কাস্টমাইজড ফার্নিচার প্রজেক্ট।' : 'Custom bespoke furniture project tailored around specific room architecture.',
+              orderType: isBangla ? 'কাস্টমাইজড' : 'Bespoke',
+              leadTime: isBangla ? '১৫–২৫ দিন' : '15–25 Days',
             })}
             className="relative z-10 whitespace-nowrap px-7 py-3.5 rounded-xl bg-[#C5A880] hover:bg-[#d5ba94] text-[#121414] font-bold text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer shrink-0"
           >
-            Request Custom Consultation &rarr;
+            {t.products.calloutCta}
           </button>
         </div>
       </div>
