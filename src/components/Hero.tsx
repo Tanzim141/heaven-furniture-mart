@@ -19,7 +19,7 @@ export const Hero: React.FC<HeroProps> = () => {
         <img
           src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=85&w=2000"
           alt="Luxury Interior Living Room"
-          className="w-full h-full object-cover object-center scale-105 animate-pulse duration-[10000ms]"
+          className="w-full h-full object-cover object-[center_40%] sm:object-[center_35%] lg:object-center scale-100 animate-pulse duration-[10000ms]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40 dark:from-black/90 dark:via-black/75 dark:to-black/60 backdrop-blur-[2px]" />
       </div>

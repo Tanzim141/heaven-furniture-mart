@@ -105,14 +105,14 @@ export const BespokeHighlight: React.FC<BespokeHighlightProps> = ({ openQuoteMod
           {/* Framed Image Container */}
           <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-[#C5A880]/30 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] bg-[#151B1A]">
             <img
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=85&w=1800"
+              src="/assets/livingroom-clean.png"
               alt="Custom bespoke furniture crafted for a luxury interior"
               className="w-full h-full object-cover object-center transform scale-100 group-hover:scale-[1.03] transition-transform duration-1000 ease-out"
             />
 
             {/* Cinematic Vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0E1312] via-[#0E1312]/40 to-transparent opacity-85 group-hover:opacity-70 transition-opacity duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0E1312]/85 via-transparent to-transparent hidden md:block" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0E1312]/90 via-[#0E1312]/25 to-transparent opacity-70 group-hover:opacity-55 transition-opacity duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0E1312]/70 via-transparent to-transparent hidden md:block" />
 
             {/* Overlay Content on Image */}
             <div className="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-none">
